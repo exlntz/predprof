@@ -1,7 +1,7 @@
 from typing import Annotated
 
 from sqlalchemy.ext.asyncio import AsyncAttrs, async_sessionmaker, create_async_engine, AsyncSession
-from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from fastapi import Depends
 
 engine = create_async_engine('sqlite+aiosqlite:///database.db')
@@ -10,6 +10,16 @@ async_session = async_sessionmaker(engine)
 
 class Model(AsyncAttrs, DeclarativeBase):
     pass
+
+class User(Model):
+    __tablename__ = 'users'
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    first_name: Mapped[str] = mapped_column(nullable=True)
+    last_name: Mapped[str] = mapped_column(nullable=True)
+    hashed_password: Mapped[str]
+    is_admin: Mapped[bool] = mapped_column(default=False)
+
 
 async def get_db():
     async with async_session() as session:
