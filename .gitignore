@@ -5,3 +5,4 @@ __pycache__/
 .env
 Data.npz
 node_modules
+database.db
