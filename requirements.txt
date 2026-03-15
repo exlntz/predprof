@@ -1,3 +1,10 @@
 fastapi==0.135.1
 tensorflow==2.21.0
 uvicorn==0.41.0
+keras>=3.0.0
+jax>=0.4.0
+jaxlib>=0.4.0
+numpy>=1.23
+pandas>=1.5
+scipy>=1.10
+matplotlib>=3.7
