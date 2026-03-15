@@ -7,6 +7,7 @@ from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy import select
 from dotenv import load_dotenv
 import os
+
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 load_dotenv()
 
@@ -44,9 +45,6 @@ async def get_current_user(
 
     if not user:
         raise unauthorized_error
-
-    if user.is_banned:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,detail='Ваш аккаунт заблокирован.')
 
     return user
 

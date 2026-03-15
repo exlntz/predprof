@@ -4,6 +4,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.exc import IntegrityError
 from passlib.context import CryptContext
 from app.core.database import SessionDep
+from app.core.dependencies import UserDep
 from app.core.database import User
 from typing import Annotated
 from sqlalchemy import select
@@ -91,6 +92,18 @@ async def login_user(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail='Неверный логин или пароль!'
         )
-    token=create_access_token(data={'sub': user.username})
+    token=create_access_token(data={'sub': user.id})
 
     return Token(access_token=token,token_type='bearer')
+
+
+@router.get('/me',summary='Логин')
+async def auth_me(
+        session: SessionDep,
+        user: UserDep
+):
+    query=select(User).where(User.username == str(user.username))
+    result=await session.execute(query)
+    res=result.scalar_one_or_none()
+    cur_user = {'id':res.id,'first_name':res.first_name,'last_name':res.last_name,'username':res.username,'is_admin':res.is_admin}
+    return cur_user
