@@ -1,36 +1,39 @@
-from fastapi import APIRouter,HTTPException,status,Depends
+from fastapi import APIRouter,HTTPException,status,Depends,File,UploadFile
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy import select
 from typing import Annotated
-
+import numpy as np
 from app.core.database import SessionDep
-from app.models import UserModel
-from app.core.security import get_password_hash,is_password_correct,create_access_token
 from app.schemas.user import UserRegister,Token
+import os
+import uuid
 
 ALLOWED_FILE_EXTENSIONS = {'npz'}
+UPLOAD_DIR = "uploads"
 
-@router.post('/avatar', summary='загрузка набора данных для проверки работы модели')
-async def upload_avatar(
-        session: SessionDep,
-        current_user: UserDep,
-        file: UploadFile = File(...)
-):
+router = APIRouter(prefix='/data', tags=['Загрузка файлов'])
 
-    filename = file.filename or ""
-    ext = filename.rsplit('.', 1)[-1].lower() if '.' in filename else ""
+@router.post("/upload-npz/")
+async def upload_npz(file: UploadFile = File(...)):
+    if not file.filename.endswith(".npz"):
+        return {"error": "допустимы только .npz файлы"}
 
-    if not ext and file.content_type:
-        ctype = file.content_type.split('/')[-1].lower()
-        if 'heic' in ctype or 'heif' in ctype:
-            ext = 'heic'
-        elif ctype == 'octet-stream' and filename.lower().endswith('.heic'):
-            ext = 'heic'
+    file_path = os.path.join(UPLOAD_DIR, str(uuid.uuid4().hex)+'.npz')
 
-    if ext not in ALLOWED_FILE_EXTENSIONS:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f'Формат {ext} не поддерживается. Разрешены: {", ".join(ALLOWED_FILE_EXTENSIONS)}'
-        )
+    # сохраняем файл
+    with open(file_path, "wb") as f:
+        content = await file.read()
+        f.write(content)
 
+    # проверка что файл читается numpy
+    try:
+        data = np.load(file_path)
+        arrays = list(data.keys())
+    except Exception:
+        return {"error": "Invalid NPZ file"}
+
+    return {
+        "filename": file.filename,
+        "arrays_in_file": arrays
+    }
     
