@@ -71,3 +71,19 @@ plt.text(0.95, 0.95, f'Общая точность: {accuracy:.1f}%',
 plt.tight_layout()
 plt.savefig('static/graph_test_accuracy.png', dpi=100, bbox_inches='tight')
 plt.close()
+
+## GRAPH 4
+plt.figure(figsize=(10, 8))
+top5 = valid_labels['class'].value_counts().head(5)
+
+# bar
+plt.pie(top5.values, labels=top5.index.astype(str), autopct='%1.1f%%',
+        startangle=90, colors=plt.cm.Set3(np.linspace(0, 1, 5)))
+plt.title('Топ-5 наиболее частых классов в валидационном наборе',
+          fontsize=14, fontweight='bold')
+plt.axis('equal')
+plt.tight_layout()
+plt.savefig('static/graph_top5.png', dpi=100, bbox_inches='tight')
+plt.close()
+
+print("Loaded in 'static/'")
