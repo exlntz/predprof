@@ -10,7 +10,8 @@ const newUser = ref({
   first_name: '',
   last_name: '',
   password: '',
-  password_repeat: ''
+  password_repeat: '',
+  is_admin: false
 })
 
 const createUser = async () => {
@@ -38,7 +39,8 @@ const createUser = async () => {
       first_name: '',
       last_name: '',
       password: '',
-      password_repeat: ''
+      password_repeat: '',
+      is_admin: false
     }
   } catch (error) {
     isError.value = true
@@ -59,6 +61,12 @@ const createUser = async () => {
         <input v-model="newUser.last_name" type="text" placeholder="Фамилия" required />
         <input v-model="newUser.password" type="password" placeholder="Пароль" required />
         <input v-model="newUser.password_repeat" type="password" placeholder="Повторите пароль" required />
+        
+        <label class="checkbox-label">
+          <input v-model="newUser.is_admin" type="checkbox" />
+          Назначить администратором
+        </label>
+
         <button type="submit">Создать</button>
       </form>
       <p v-if="message" :class="{ 'error-text': isError, 'success-text': !isError }">
@@ -89,10 +97,27 @@ const createUser = async () => {
   gap: 15px;
 }
 
-.user-form input {
+.user-form input[type="text"],
+.user-form input[type="password"] {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  color: #333;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
 }
 
 .user-form button {
