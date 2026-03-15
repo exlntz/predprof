@@ -35,7 +35,7 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: white;
+    background: #0b0e14;
     color: #222;
     margin: 120px;
     display: flex;
@@ -52,6 +52,7 @@ body {
     border: solid 2px #777;
     border-radius: 30px;
     text-align: center;
+    background-color: white;
 }
 
 h1 {
