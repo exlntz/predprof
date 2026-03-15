@@ -7,4 +7,4 @@ jaxlib>=0.4.0
 numpy>=1.23
 pandas>=1.5
 scipy>=1.10
-matplotlib>=3.7
+matplotlib>=3.10.0
