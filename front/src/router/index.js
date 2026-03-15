@@ -8,12 +8,12 @@ const routes = [
   { 
     path: '/main', 
     component: MainPage, 
-    //meta: { requiresAuth: true, role: 'user' } 
+    meta: { requiresAuth: true, role: 'user' } 
   },
   { 
     path: '/admin', 
     component: AdminPage, 
-    //meta: { requiresAuth: true, role: 'admin' } 
+    meta: { requiresAuth: true, role: 'admin' } 
   },
   { path: '/', redirect: '/login' }
 ]
