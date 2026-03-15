@@ -73,11 +73,16 @@ h1 {
     text-align: left;
 }
 
+.field:hover {
+    background-color: #e8dcdc;
+}
+
 input {
     color: #222;
     font-size: 12px;
     border: none;
     margin: 13px 20px;
+    background: none;
 }
 
 hr {
@@ -101,7 +106,7 @@ hr {
 button {
     display: block;
     border: none;
-    background-color: #222;
+    background: none;
     color: #eee;
     margin: 10px auto;
 }

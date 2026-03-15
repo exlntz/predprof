@@ -5,7 +5,7 @@
 <template>
     <div class="container">
         <h1>Вход</h1>
-        <form id="register">
+        <form id="auth">
             <div class="field">
                 <input class="input-field" placeholder="Имя">
             </div>
@@ -19,7 +19,7 @@
             <div class="button-field">
                 <button id="accept">Войти</button>
             </div>
-            <div class="auth-link">
+            <div class="reg-link">
                 <p>Нет аккаунт? <a href="Reg.vue">Зарегистрироваться</a></p>
             </div>
         </form>
@@ -70,11 +70,16 @@ h1 {
     text-align: left;
 }
 
+.field:hover {
+    background-color: #e8dcdc;
+}
+
 input {
     color: #222;
     font-size: 12px;
     border: none;
     margin: 13px 20px;
+    background: none;
 }
 
 hr {
@@ -98,7 +103,7 @@ hr {
 button {
     display: block;
     border: none;
-    background-color: #222;
+    background: none;
     color: #eee;
     margin: 10px auto;
 }
