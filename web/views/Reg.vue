@@ -4,7 +4,7 @@
 
 <template>
     <div class="container">
-        <h1>Вход</h1>
+        <h1>Регистрация</h1>
         <form id="register">
             <div class="field">
                 <input class="input-field" placeholder="Имя">
@@ -15,12 +15,15 @@
             <div class="field">
                 <input class="input-field" placeholder="Пароль">
             </div>
+            <div class="field">
+                <input class="input-field" placeholder="Поттвердить пароль">
+            </div>
             <hr>
             <div class="button-field">
-                <button id="accept">Войти</button>
+                <button id="accept">Зарегистрироваться</button>
             </div>
             <div class="auth-link">
-                <p>Нет аккаунт? <a href="Reg.vue">Зарегистрироваться</a></p>
+                <p>Уже есть аккаунт? <a href="auth.html">Войти</a></p>
             </div>
         </form>
     </div>
@@ -35,7 +38,7 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #0b0e14;
+    background: white;
     color: #222;
     margin: 120px;
     display: flex;
@@ -52,7 +55,6 @@ body {
     border: solid 2px #777;
     border-radius: 30px;
     text-align: center;
-    background-color: white;
 }
 
 h1 {
