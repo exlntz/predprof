@@ -1,29 +1,78 @@
-<script>
+<script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { advancedApiRequest } from '../utils/api'
 
+const router = useRouter()
+const message = ref('')
+const isError = ref(false)
+
+const form = ref({
+  username: '',
+  first_name: '',
+  last_name: '',
+  password: '',
+  password_repeat: ''
+})
+
+const submitReg = async () => {
+  message.value = ''
+  isError.value = false
+
+  if (form.value.password !== form.value.password_repeat) {
+    isError.value = true
+    message.value = 'Пароли не совпадают'
+    return
+  }
+
+  try {
+    const data = await advancedApiRequest('http://localhost:8000/admin/createuser', {
+      method: 'POST',
+      body: JSON.stringify(form.value)
+    })
+    
+    isError.value = false
+    message.value = 'Регистрация успешна! Теперь вы можете войти.'
+    
+    setTimeout(() => {
+      router.push('/login')
+    }, 1500)
+
+  } catch (error) {
+    isError.value = true
+    message.value = 'Ошибка при регистрации. Возможно, логин уже занят.'
+  }
+}
 </script>
 
 <template>
     <div class="container">
         <h1>Регистрация</h1>
-        <form id="register">
+        <form id="register" @submit.prevent="submitReg">
             <div class="field">
-                <input class="input-field" placeholder="Имя">
+                <input v-model="form.username" type="text" class="input-field" placeholder="Логин" required>
             </div>
             <div class="field">
-                <input class="input-field" placeholder="Фамилия">
+                <input v-model="form.first_name" type="text" class="input-field" placeholder="Имя" required>
             </div>
             <div class="field">
-                <input class="input-field" placeholder="Пароль">
+                <input v-model="form.last_name" type="text" class="input-field" placeholder="Фамилия" required>
             </div>
             <div class="field">
-                <input class="input-field" placeholder="Поттвердить пароль">
+                <input v-model="form.password" type="password" class="input-field" placeholder="Пароль" required>
             </div>
+            <div class="field">
+                <input v-model="form.password_repeat" type="password" class="input-field" placeholder="Подтвердить пароль" required>
+            </div>
+            
+            <p v-if="message" :class="isError ? 'error-text' : 'success-text'">{{ message }}</p>
+            
             <hr>
             <div class="button-field">
-                <button id="accept">Зарегистрироваться</button>
+                <button type="submit" id="accept">Зарегистрироваться</button>
             </div>
             <div class="auth-link">
-                <p>Уже есть аккаунт? <a href="auth.html">Войти</a></p>
+                <p>Уже есть аккаунт? <router-link to="/login">Войти</router-link></p>
             </div>
         </form>
     </div>
@@ -78,6 +127,8 @@ input {
     font-size: 12px;
     border: none;
     margin: 13px 20px;
+    outline: none;
+    width: 90%;
 }
 
 hr {
@@ -104,6 +155,9 @@ button {
     background-color: #222;
     color: #eee;
     margin: 10px auto;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
 }
 
 p {
@@ -112,5 +166,19 @@ p {
 
 a {
     text-decoration: none;
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+.error-text {
+    color: red;
+    margin-top: -10px;
+    font-size: 14px;
+}
+
+.success-text {
+    color: green;
+    margin-top: -10px;
+    font-size: 14px;
 }
 </style>

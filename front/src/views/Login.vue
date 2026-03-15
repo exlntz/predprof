@@ -1,26 +1,67 @@
-<script>
+<script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
+const username = ref('')
+const password = ref('')
+const message = ref('')
+const router = useRouter()
+
+const submitLogin = async () => {
+  message.value = ''
+  try {
+    const response = await fetch('http://localhost:8000/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: new URLSearchParams({
+        username: username.value,
+        password: password.value
+      })
+    })
+
+    if (!response.ok) {
+      throw new Error('Неверный логин или пароль')
+    }
+
+    const data = await response.json()
+    localStorage.setItem('token', data.access_token)
+    
+    // Определяем роль (если логин админский — кидаем в админку)
+    if (username.value === 'admin') {
+      localStorage.setItem('role', 'admin')
+      router.push('/admin')
+    } else {
+      localStorage.setItem('role', 'user')
+      router.push('/main')
+    }
+
+  } catch (error) {
+    message.value = error.message
+  }
+}
 </script>
 
 <template>
     <div class="container">
         <h1>Вход</h1>
-        <form id="register">
+        <form id="register" @submit.prevent="submitLogin">
             <div class="field">
-                <input class="input-field" placeholder="Имя">
+                <input v-model="username" type="text" class="input-field" placeholder="Логин" required>
             </div>
             <div class="field">
-                <input class="input-field" placeholder="Фамилия">
+                <input v-model="password" type="password" class="input-field" placeholder="Пароль" required>
             </div>
-            <div class="field">
-                <input class="input-field" placeholder="Пароль">
-            </div>
+            
+            <p v-if="message" class="error-text">{{ message }}</p>
+            
             <hr>
             <div class="button-field">
-                <button id="accept">Войти</button>
+                <button type="submit" id="accept">Войти</button>
             </div>
             <div class="auth-link">
-                <p>Нет аккаунт? <a href="Reg.vue">Зарегистрироваться</a></p>
+                <p>Нет аккаунта? <router-link to="/register">Зарегистрироваться</router-link></p>
             </div>
         </form>
     </div>
@@ -75,6 +116,8 @@ input {
     font-size: 12px;
     border: none;
     margin: 13px 20px;
+    outline: none;
+    width: 90%;
 }
 
 hr {
@@ -101,6 +144,9 @@ button {
     background-color: #222;
     color: #eee;
     margin: 10px auto;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
 }
 
 p {
@@ -109,5 +155,13 @@ p {
 
 a {
     text-decoration: none;
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+.error-text {
+    color: red;
+    margin-top: -10px;
+    font-size: 14px;
 }
 </style>
