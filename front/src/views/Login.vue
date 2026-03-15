@@ -60,9 +60,6 @@ const submitLogin = async () => {
             <div class="button-field">
                 <button type="submit" id="accept">Войти</button>
             </div>
-            <div class="auth-link">
-                <p>Нет аккаунта? <router-link to="/register">Зарегистрироваться</router-link></p>
-            </div>
         </form>
     </div>
 </template>
