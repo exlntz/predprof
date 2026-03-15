@@ -66,6 +66,7 @@ const createUser = async () => {
           <input v-model="newUser.is_admin" type="checkbox" />
           Назначить администратором
         </label>
+        <hr>
 
         <button type="submit">Создать</button>
       </form>
@@ -78,30 +79,37 @@ const createUser = async () => {
 
 <style scoped>
 .admin-container {
-  max-width: 500px;
+  max-width: 800px;
   margin: 0 auto;
   padding: 20px;
   font-family: sans-serif;
+  text-align: center;
+}
+
+h2 {
+  color: #e0e0e0;
+  margin-bottom: 20px;
 }
 
 .form-container {
   background: #f9f9f9;
   padding: 20px;
-  border-radius: 8px;
+  border-radius: 20px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  width: 400px;
 }
 
 .user-form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
 }
 
 .user-form input[type="text"],
 .user-form input[type="password"] {
   padding: 10px;
+  margin-bottom: 10px;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 20px;
 }
 
 .checkbox-label {
@@ -120,12 +128,16 @@ const createUser = async () => {
   cursor: pointer;
 }
 
+hr {
+  margin: 15px auto;
+}
+
 .user-form button {
   padding: 10px;
   background-color: #4CAF50;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 20px;
   cursor: pointer;
   font-weight: bold;
 }
