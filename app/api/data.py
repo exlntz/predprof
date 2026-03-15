@@ -4,6 +4,8 @@ from sqlalchemy import select
 from typing import Annotated
 import numpy as np
 from app.core.database import SessionDep
+from app.core.dependencies import UserDep
+from app.core.database import FileModel
 from app.schemas.user import UserRegister,Token
 import os
 import uuid
@@ -14,11 +16,12 @@ UPLOAD_DIR = "uploads"
 router = APIRouter(prefix='/data', tags=['Загрузка файлов'])
 
 @router.post("/upload-npz/")
-async def upload_npz(file: UploadFile = File(...)):
+async def upload_npz(user: UserDep, session: SessionDep, file: UploadFile = File(...)):
     if not file.filename.endswith(".npz"):
         return {"error": "допустимы только .npz файлы"}
 
-    file_path = os.path.join(UPLOAD_DIR, str(uuid.uuid4().hex)+'.npz')
+    filename = f'{uuid.uuid4().hex}.npz'
+    file_path = os.path.join(UPLOAD_DIR, filename)
 
     # сохраняем файл
     with open(file_path, "wb") as f:
@@ -31,9 +34,17 @@ async def upload_npz(file: UploadFile = File(...)):
         arrays = list(data.keys())
     except Exception:
         return {"error": "Invalid NPZ file"}
+    
+    new_file = FileModel( 
+        filename=filename,
+        user_id=user.id,
+    )
+
+    session.add(new_file)
+    await session.commit()
 
     return {
-        "filename": file.filename,
+        "filename": filename,
         "arrays_in_file": arrays
     }
     
