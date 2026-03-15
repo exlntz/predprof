@@ -1,21 +1,19 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Login from '../views/Login.vue'
-import Register from '../views/Reg.vue'
 import MainPage from '../views/MainPage.vue'
 import AdminPage from '../views/AdminPage.vue'
 
 const routes = [
   { path: '/login', component: Login },
-  { path: '/register', component: Register },
   { 
     path: '/main', 
     component: MainPage, 
-    meta: { requiresAuth: true, role: 'user' } 
+    //meta: { requiresAuth: true, role: 'user' } 
   },
   { 
     path: '/admin', 
     component: AdminPage, 
-    meta: { requiresAuth: true, role: 'admin' } 
+    //meta: { requiresAuth: true, role: 'admin' } 
   },
   { path: '/', redirect: '/login' }
 ]
