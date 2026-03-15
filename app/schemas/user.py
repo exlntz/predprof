@@ -11,6 +11,7 @@ class UserRegister(BaseModel):
     last_name: str
     password: str = Field(...,min_length=6,description='Пароль')
     password_repeat: str = Field(...,min_length=6,description='Повтор пароля')
+    is_admin: bool
 
     @model_validator(mode='after')
     def check_passwords_match(self) -> Self:

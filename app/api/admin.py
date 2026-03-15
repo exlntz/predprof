@@ -28,6 +28,7 @@ async def create_user(
         first_name=user.first_name,
         last_name=user.last_name,
         hashed_password=hashed_password,
+        is_admin=user.is_admin,
     )
     try:
         session.add(new_user)
