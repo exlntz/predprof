@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.admin import router as admin_router
 from app.api.auth import router as auth_router
+from app.api.data import router as data_router
 from contextlib import asynccontextmanager
 from app.core.database import engine, Model
 
@@ -29,6 +30,8 @@ app.add_middleware(
 )
 
 app.include_router(auth_router)
+app.include_router(admin_router)
+app.include_router(data_router)
 @app.get('/')
 async def start():
     return 'privet'
