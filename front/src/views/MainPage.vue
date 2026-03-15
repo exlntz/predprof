@@ -103,6 +103,7 @@ onMounted(() => {
 }
 
 .header {
+  width: 600px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -119,10 +120,11 @@ h2 {
   padding: 8px 16px;
   background-color: #e74c3c;
   color: white;
+  width: 100px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  margin-left: 30px;
+  margin-left: 100px;
 }
 
 .logout-btn:hover {
@@ -174,13 +176,13 @@ hr {
 }
 
 .chart-placeholder {
-  background: #eee;
+  background: #e9e9e9;
   height: 250px;
   display: flex;
   align-items: center;
   justify-content: center;
   border: 1px dashed #999;
-  border-radius: 10px;
+  border-radius: 20px;
 }
 
 .profile-info p {
