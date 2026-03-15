@@ -1,6 +1,8 @@
+
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { advancedApiRequest } from '../utils/api'
 
 const username = ref('')
 const password = ref('')
@@ -10,26 +12,27 @@ const router = useRouter()
 const submitLogin = async () => {
   message.value = ''
   try {
-    const response = await fetch('http://localhost:8000/auth/login', {
+    // 1. Получаем токен доступа (OAuth2 форма ожидает x-www-form-urlencoded)
+    const data = await advancedApiRequest('http://localhost:8000/auth/login', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: new URLSearchParams({
         username: username.value,
         password: password.value
       })
     })
 
-    if (!response.ok) {
-      throw new Error('Неверный логин или пароль')
-    }
-
-    const data = await response.json()
+    // Сохраняем полученный токен в браузере
     localStorage.setItem('token', data.access_token)
-    
-    // Определяем роль (если логин админский — кидаем в админку)
-    if (username.value === 'admin') {
+
+    // 2. Сразу запрашиваем данные профиля, используя полученный токен
+    const profile = await advancedApiRequest('http://localhost:8000/auth/me', {
+      method: 'GET',
+      headers: { 'Authorization': `Bearer ${data.access_token}` }
+    })
+
+    // 3. Редирект на основе роли из БД
+    if (profile.is_admin) {
       localStorage.setItem('role', 'admin')
       router.push('/admin')
     } else {
@@ -38,11 +41,10 @@ const submitLogin = async () => {
     }
 
   } catch (error) {
-    message.value = error.message
+    message.value = 'Неверный логин или пароль'
   }
 }
 </script>
-
 <template>
     <div class="container">
         <h1>Вход</h1>
