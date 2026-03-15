@@ -128,12 +128,16 @@ h2 {
   cursor: pointer;
 }
 
+hr {
+  margin: 15px auto;
+}
+
 .user-form button {
   padding: 10px;
   background-color: #4CAF50;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 20px;
   cursor: pointer;
   font-weight: bold;
 }
