@@ -15,6 +15,7 @@ class User(Model):
     __tablename__ = 'users'
 
     id: Mapped[int] = mapped_column(primary_key=True)
+    username: Mapped[str] = mapped_column(nullable=False)
     first_name: Mapped[str] = mapped_column(nullable=True)
     last_name: Mapped[str] = mapped_column(nullable=True)
     hashed_password: Mapped[str]

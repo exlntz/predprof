@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Login from '../views/Login.vue'
-import Register from '../views/Reg.vue'
-import MainPage from '../views/MainPage.vue'
-import AdminPage from '../views/AdminPage.vue'
+import Login from './views/Login.vue'
+import Register from './views/Reg.vue'
+import MainPage from './views/MainPage.vue'
+import AdminPage from './views/AdminPage.vue'
 
 const routes = [
   { path: '/login', component: Login },
@@ -37,7 +37,7 @@ router.beforeEach((to, from, next) => {
     // Проверка роли: если роль в маршруте не совпадает с ролью юзера
     if (to.meta.role && to.meta.role !== userRole) {
       // Отправляем туда, куда ему положено по роли
-      return next(userRole === 'admin' ? '/admin' : '/user')
+      return next(userRole === 'admin' ? '/admin' : '/main')
     }
   }
   next()

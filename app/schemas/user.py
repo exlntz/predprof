@@ -4,14 +4,6 @@ from datetime import datetime
 from fastapi.security import OAuth2PasswordRequestForm
 from typing import Annotated
 
-class UserRegister(BaseModel):
-    username: str
-    first_name: str
-    last_name: str
-    password: str
-    password_repeat: str
-
-
 
 class UserRegister(BaseModel):
     username: str = Field(...,min_length=3,max_length=40,description='Имя пользователя')
