@@ -23,7 +23,7 @@
                 <button id="accept">Зарегистрироваться</button>
             </div>
             <div class="auth-link">
-                <p>Уже есть аккаунт? <a href="auth.html">Войти</a></p>
+                <p>Уже есть аккаунт? <a href="Login.vue">Войти</a></p>
             </div>
         </form>
     </div>
