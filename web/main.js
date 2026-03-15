@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
-import App from './app.vue'
-import router from './src/styles/utils/router' // Импорт твоего роутера
+import app from './app.vue'
+import router from './utils/router' // Импорт твоего роутера
 
-const app = createApp(App)
+const app = createApp(app)
 app.use(router) // БЕЗ ЭТОГО БУДЕТ БЕЛЫЙ ЭКРАН
 app.mount('#app')
