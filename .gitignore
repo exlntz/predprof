@@ -4,3 +4,4 @@ __pycache__/
 .idea/
 .env
 Data.npz
+node_modules
