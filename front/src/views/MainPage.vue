@@ -36,6 +36,7 @@ onMounted(() => {
       <h2>Панель исследователя</h2>
       <button @click="logout" class="logout-btn">Выйти</button>
     </header>
+    <hr>
 
     <div class="tabs">
       <button 
@@ -90,11 +91,15 @@ onMounted(() => {
 </template>
 
 <style scoped>
+
 .main-container {
   max-width: 1000px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 30px;
   font-family: sans-serif;
+  background-color: white;
+  border-radius: 30px;
+  text-align: center;
 }
 
 .header {
@@ -104,6 +109,12 @@ onMounted(() => {
   margin-bottom: 30px;
 }
 
+h2 {
+  color: #222;
+  border-right: solid 1px #222;
+  padding-right: 20px;
+}
+
 .logout-btn {
   padding: 8px 16px;
   background-color: #e74c3c;
@@ -111,10 +122,18 @@ onMounted(() => {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  margin-left: 30px;
 }
 
 .logout-btn:hover {
   background-color: #c0392b;
+}
+
+hr {
+  width: 100%;
+  height: 2px;
+  border: none;
+  background-color: #222;
 }
 
 .tabs {
@@ -161,7 +180,7 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   border: 1px dashed #999;
-  border-radius: 4px;
+  border-radius: 10px;
 }
 
 .profile-info p {
